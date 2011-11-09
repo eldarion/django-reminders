@@ -13,3 +13,10 @@ Installation
         # other apps
         "reminders",
     )
+
+* Finally (and optionally if you configure all your reminders to not be
+  dismissable)::
+
+    ...
+    url(r"^reminders/", include("reminders.urls")),
+    ...

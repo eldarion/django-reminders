@@ -21,5 +21,5 @@ Contents
  changelog
  installation
  templatetags
- signals
+ settings
  usage

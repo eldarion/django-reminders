@@ -16,7 +16,8 @@ configured by this setting. Here is an example::
         {
             "label": "profile_completed",
             "test": "profiles.reminders.completed",
-            "message": "You have only completed %(percentage)s%% of your <a href="%(url)s">profile</a>."
+            "message": "You have only completed %(percentage)s%% of your <a href="%(url)s">profile</a>.",
+            "dismissable": False
         },
         {
             "label": "email_confirmed",
@@ -24,17 +25,6 @@ configured by this setting. Here is an example::
             "message": "Please <a href="%(url)">confirm</a> your email address."
         }
     ]
-
-
-REMINDERS_DISMISSABLE
----------------------
-
-:Default: True
-
-If set to false then reminders will not be able to be dismissed. If set to
-True, which is the default, then reminders can be dismissed for the duration
-of the user's session.
-
 
 
 Callable API

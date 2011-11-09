@@ -19,9 +19,17 @@ Example::
     {% if user_reminders %}
         <ul>
             {% for reminder in user_reminders %}
-                <li>{{ reminder }}</li>
+                <li>
+                    {{ reminder.message }}
+                    {% if reminder.dismiss_url %}
+                        <a href="{{ reminder.dismiss_url }}">Dismiss</a>
+                    {% endif %}
+                </li>
             {% endfor %}
         </ul>
     {% else %}
         <p class="info">You have no reminders at this time.</p>
     {% endif %}
+
+You'll want to hook up the dismiss link to an AJAX post as that URL will
+only response to POST methods.
