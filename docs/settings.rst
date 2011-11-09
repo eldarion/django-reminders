@@ -10,10 +10,31 @@ REMINDERS
 This app is driven by a list of callables and associated messages
 configured by this setting. Here is an example::
 
+    from emailconfirmation.reminders import confirmed
+    
     REMINDERS = [
-        ("You have only completed %(percentage)s%% of your <a href="%(url)s">profile</a>.", "profiles.reminders.completed"),
-        ("Please <a href="%(url)">confirm</a> your email address.", "emailconfirmation.reminders.confirmed")
+        {
+            "label": "profile_completed",
+            "test": "profiles.reminders.completed",
+            "message": "You have only completed %(percentage)s%% of your <a href="%(url)s">profile</a>."
+        },
+        {
+            "label": "email_confirmed",
+            "test": lambda user: confirmed(user),
+            "message": "Please <a href="%(url)">confirm</a> your email address."
+        }
     ]
+
+
+REMINDERS_DISMISSABLE
+---------------------
+
+:Default: True
+
+If set to false then reminders will not be able to be dismissed. If set to
+True, which is the default, then reminders can be dismissed for the duration
+of the user's session.
+
 
 
 Callable API
