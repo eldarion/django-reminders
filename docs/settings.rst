@@ -12,19 +12,17 @@ configured by this setting. Here is an example::
 
     from emailconfirmation.reminders import confirmed
     
-    REMINDERS = [
-        {
-            "label": "profile_completed",
+    REMINDERS = {
+        "profile_completed": {
             "test": "profiles.reminders.completed",
             "message": "You have only completed %(percentage)s%% of your <a href="%(url)s">profile</a>.",
             "dismissable": False
         },
-        {
-            "label": "email_confirmed",
+        "email_confirmed": {
             "test": lambda user: confirmed(user),
             "message": "Please <a href="%(url)">confirm</a> your email address."
         }
-    ]
+    }
 
 
 Callable API
