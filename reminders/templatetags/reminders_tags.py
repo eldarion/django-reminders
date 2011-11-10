@@ -48,10 +48,12 @@ class RemindersNode(template.Node):
                 url = None
                 if settings.REMINDERS[label].get("dismissable", True):
                     url = reverse("reminders_dismiss", kwargs={"label": label})
-                reminders.append({
-                    "message": mark_safe(message % test(request.user)),
-                    "dismiss_url": url
-                })
+                result = test(request.user)
+                if result:
+                    reminders.append({
+                        "message": mark_safe(message % test(request.user)),
+                        "dismiss_url": url
+                    })
         context[self.as_var] = reminders
         return ""
 
