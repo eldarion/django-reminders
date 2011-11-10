@@ -10,6 +10,6 @@ def dismiss(request, label):
     if not settings.REMINDERS.get(label).get("dismissable", True):
         return HttpResponse(status=409)
     for reminder in settings.REMINDERS:
-        if reminder.get("label") == label and reminder.get("dismissable", True):
+        if reminder == label and settings.REMINDERS[reminder].get("dismissable", True):
             request.session[label] = "dismissed"
     return HttpResponse()
