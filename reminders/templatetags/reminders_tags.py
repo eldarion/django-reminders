@@ -2,6 +2,7 @@ from django import template
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.utils.importlib import import_module
+from django.utils.safestring import mark_safe
 
 
 register = template.Library()
@@ -30,7 +31,6 @@ class RemindersNode(template.Node):
         bits = token.split_contents()
         if len(bits) != 3:
             raise template.TemplateSyntaxError
-        
         return cls(as_var = bits[2])
     
     def __init__(self, as_var):
@@ -42,13 +42,14 @@ class RemindersNode(template.Node):
         for label in settings.REMINDERS:
             if label not in request.session:
                 test = settings.REMINDERS[label]["test"]
+                message = settings.REMINDERS[label]["message"]
                 if not callable(test):
                     test = load_callable(test)
                 url = None
                 if settings.REMINDERS[label].get("dismissable", True):
                     url = reverse("reminders_dismiss", kwargs={"label": label})
                 reminders.append({
-                    "message": test(request.user),
+                    "message": mark_safe(message % test(request.user)),
                     "dismiss_url": url
                 })
         context[self.as_var] = reminders
