@@ -14,7 +14,7 @@ Example::
     
     <h3>Reminders</h3>
     
-    {% reminders request.user as user_reminders %}
+    {% reminders as user_reminders %}
     
     {% if user_reminders %}
         <ul>
