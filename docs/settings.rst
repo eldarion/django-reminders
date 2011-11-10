@@ -16,13 +16,19 @@ configured by this setting. Here is an example::
         "profile_completed": {
             "test": "profiles.reminders.completed",
             "message": "You have only completed %(percentage)s%% of your <a href="%(url)s">profile</a>.",
-            "dismissable": False
+            "dismissable": "permanent"
         },
         "email_confirmed": {
             "test": lambda user: confirmed(user),
-            "message": "Please <a href="%(url)">confirm</a> your email address."
+            "message": "Please <a href="%(url)">confirm</a> your email address.",
+            "dismissable": "no"
         }
     }
+
+Valid values for the `dismissable` key are `permanent`, `session`, and `no`. If
+left out of the settings it will default to `session`. As you might have guessed,
+this controls whether or not a user can dismiss a reminder and if they do, whether
+it is dismissed for the duration of their session or for good.
 
 
 Callable API

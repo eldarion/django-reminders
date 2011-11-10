@@ -4,6 +4,8 @@ from django.core.urlresolvers import reverse
 from django.utils.importlib import import_module
 from django.utils.safestring import mark_safe
 
+from reminders.models import Dismissal
+
 
 register = template.Library()
 
@@ -24,6 +26,16 @@ def load_callable(path_to_callable):
     return func
 
 
+def is_dismissed(label, dismissal_type, request):
+    if dismissal_type == "session":
+        dismissed = label in request.session
+    elif dismissal_type == "permanent":
+        dismissed = Dismissal.objects.filter(user=request.user, label=label).exists()
+    else:
+        dismissed = False
+    return dismissed
+
+
 class RemindersNode(template.Node):
     
     @classmethod
@@ -40,18 +52,21 @@ class RemindersNode(template.Node):
         request = context["request"]
         reminders = []
         for label in settings.REMINDERS:
-            if label not in request.session:
-                test = settings.REMINDERS[label]["test"]
-                message = settings.REMINDERS[label]["message"]
+            reminder = settings.REMINDERS[label]
+            if not is_dismissed(label, reminder.get("dismissable"), request):
+                test = reminder["test"]
+                message = reminder["message"]
                 if not callable(test):
                     test = load_callable(test)
                 url = None
-                if settings.REMINDERS[label].get("dismissable", True):
+                if reminder.get("dismissable") != "no":
                     url = reverse("reminders_dismiss", kwargs={"label": label})
                 result = test(request.user)
                 if result:
+                    if isinstance(result, dict):
+                        message = message % result
                     reminders.append({
-                        "message": mark_safe(message % test(request.user)),
+                        "message": mark_safe(message),
                         "dismiss_url": url
                     })
         context[self.as_var] = reminders
