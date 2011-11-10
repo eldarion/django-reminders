@@ -103,12 +103,12 @@ def find_package_data(
     return out
 
 
-PACKAGE = ""
-NAME = ""
-DESCRIPTION = ""
-AUTHOR = ""
-AUTHOR_EMAIL = ""
-URL = ""
+PACKAGE = "reminders"
+NAME = "django-reminders"
+DESCRIPTION = "a user reminder app for site builders to guide users through completion of activities"
+AUTHOR = "paltman@eldarion.com"
+AUTHOR_EMAIL = "2011, Eldarion"
+URL = "https://github.com/eldarion/django-reminders"
 VERSION = __import__(PACKAGE).__version__
 
 
