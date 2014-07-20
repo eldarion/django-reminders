@@ -37,17 +37,17 @@ def is_dismissed(label, dismissal_type, request):
 
 
 class RemindersNode(template.Node):
-    
+
     @classmethod
     def handle_token(cls, parser, token):
         bits = token.split_contents()
         if len(bits) != 3:
             raise template.TemplateSyntaxError
-        return cls(as_var = bits[2])
-    
+        return cls(as_var=bits[2])
+
     def __init__(self, as_var):
         self.as_var = as_var
-    
+
     def render(self, context):
         request = context["request"]
         reminders = []
@@ -78,7 +78,7 @@ def reminders(parser, token):
     """
     Usage::
         {% reminders as var %}
-    
+
     Returns a list of reminders
     """
     return RemindersNode.handle_token(parser, token)
